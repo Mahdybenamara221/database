@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+    background-color: rgb(185, 106, 106);
+}
+.container{
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    text-align: center;
+        }
+.container h3{
+    color:rgb(36, 226, 217);
+    font-size: 36px;
+    margin-bottom: 40px;
+}
+.button{
+    background:white ;
+    padding: 10px 15px;
+    color: #34495e;
+    font-weight: bolder;
+    text-transform: uppercase;
+    font-size: 18px;
+    border-radius: 5px;
+    box-shadow: 6px 6px 29px -4px rgba(0,0,0,0.75);
+    margin-top: 25px;
+    text-decoration: none;
+    transition:0.4s;   
+}
+.button:hover{
+    background: #34495e;
+    color:white;
+    cursor: pointer;
+}
+
+.popup{
+    background: rgba(0, 0, 0, 0.6);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+.popup-content{
+    height:250px;
+    width:500px;
+    background: white;
+    padding:20px;
+    border-radius: 5px;
+    position: relative;
+}
+    </style>
+</head>
+<body>
+    <div class="popup">
+        <div class="popup-content">
+            <img src="close.png" alt="close" class="close" id="close">
+            <form method="POST" action="">
+            {% csrf_token %}
+                {{
+                <br>
+                <p><h3>Insert Asset Informations</h3></p>
+                <div class="input">
+                    <p>Name : {{form.name}}
+             
+                    Category : {{form.category}}
+               
+                    <p>Model : {{form.model}}
+                
+                    Location : {{form.location}}
+                
+                    <p>Status : {{form.status}}
+                }}
+                
+                    <br>
+                    <button type="submit" class="button">Submit</button>
+                </div>
+        </div>
+    </div>
+</body>
+</html>

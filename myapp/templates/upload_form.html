@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+body{
+    background-color: rgb(185, 106, 106);
+}
+.container{
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    text-align: center;
+        }
+.container h3{
+    color:rgb(36, 226, 217);
+    font-size: 36px;
+    margin-bottom: 40px;
+}
+.button{
+    background:white ;
+    padding: 10px 15px;
+    color: #34495e;
+    font-weight: bolder;
+    text-transform: uppercase;
+    font-size: 18px;
+    border-radius: 5px;
+    box-shadow: 6px 6px 29px -4px rgba(0,0,0,0.75);
+    margin-top: 25px;
+    text-decoration: none;
+    transition:0.4s;   
+}
+.button:hover{
+    background: #34495e;
+    color:white;
+    cursor: pointer;
+}
+
+.popup{
+    background: rgba(0, 0, 0, 0.6);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+.popup-content{
+    height:250px;
+    width:500px;
+    background: white;
+    padding:20px;
+    border-radius: 5px;
+    position: relative;
+}
+
+.close{
+    position: absolute;
+    top:-15px;
+    right:-15px;
+    background: white;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    box-shadow: 6px 6px 29px -4px rgba(0,0,0,0.75);
+    cursor: pointer;
+}
+
+.parent {
+display: grid;
+grid-template-columns: repeat(5, 1fr);
+grid-template-rows: repeat(5, 1fr);
+grid-column-gap: 10px;
+grid-row-gap: 10px;
+width: 100vw;
+height: 100vh;
+}
+
+.div1 { grid-area: 1 / 1 / 6 / 2; height:100%; background: white; }
+.div2 { grid-area: 1 / 2 / 3 / 4; background: white;}
+.div3 { grid-area: 1 / 4 / 3 / 6; background: white;}
+.div4 { grid-area: 3 / 2 / 6 / 6; 
+    width:100%;
+    height:100%;
+    background:white;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+  height: 100%;
+  border: 1px solid #ddd;
+}
+.chart{
+    width: 100%;
+    height: 100%;
+    display:flex;
+}
+.chart2{
+    width: 100%;
+    height: 100%;
+    display:flex;
+}
+
+    </style>
+</head>
+<body>
+    <div class="parent">
+        <div class="div1">
+            
+            <a href="#" class="button" id="button">Insert</a>
+            
+            <div class="popup">
+                <div class="popup-content">
+                    <img src="close.png" alt="close" class="close" id="close">
+                    <form method="POST" action="">
+                    {% csrf_token %}
+                        
+                        <br>
+                        <p><h3>Insert Asset Informations</h3></p>
+                        <div class="input">
+                            <p>Name : {{form.name}}
+                     
+                            Category : {{form.category}}
+                       
+                            <p>Model : {{form.model}}
+                        
+                            Location : {{form.location}}
+                        
+                            <p>Status : {{form.status}}
+                        
+                        
+                            <br>
+                            <button type="submit" class="button">Submit</button>
+                        </div>
+                </div>
+            </div>
+
+              
+            
+
+        </div>
+
+        <div class="div2">
+            <div class="chart">
+                <div >
+                  <canvas id="myChart" ></canvas>
+                </div>
+                
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                
+                <script>
+                  const ctx2 = document.getElementById('myChart');
+                
+                  new Chart(ctx2, {
+                    type: 'pie',
+                    data: {
+                      labels: ['Workstation','Server'],
+                      datasets: [{
+                        label: '# of Assets per Category',
+                        data: [{{f}},{{m}}],
+                        backgroundColor: ['grey','black'],
+                        
+                        borderWidth: 1
+                      }]
+                    },
+                    
+                  });
+                </script>
+              </div>
+              
+
+        </div>
+        
+        <div class="div3">
+          
+          <div class="chart2">
+            <div >
+              <canvas id="myChart2" ></canvas>
+            </div>
+            
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            
+            <script>
+              const ctx = document.getElementById('myChart2');
+            
+              new Chart(ctx, {
+                type: 'pie',
+                data: {
+                  labels: ['Ready to deploy','Deployed','Pending','Lost/Stolen'],
+                  datasets: [{
+                    label: '# of Assets per status',
+                    data: [{{r}},{{d}},{{p}},{{l}}],
+                    backgroundColor: ['green','blue','orange','red'],
+                    
+                    borderWidth: 1
+                  }]
+                },
+                
+              });
+            </script>
+          </div>
+  
+          
+        </div>
+
+            
+        <div class="div4">
+
+            <form>
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <th> Name</th>
+                            <th> Category</th>
+                            <th> Model</th>
+                            <th> Location</th>
+                            <th> Status</th>
+                            <th> Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in info %}
+                        <tr>
+                            <td>{{i.name }}</td>
+                            <td>{{i.category}}</td>
+                            <td>{{i.model}}</td>
+                            <td>{{i.location}}</td>
+                            <td>{{i.status}}</td>
+                            <td>
+                                <a href="/edit/{{i.id}}">Edit</a>
+                                <a href="/delete/{{i.id}}">Delete</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                </form>
+
+                
+              </div>
+        
+    </div>
+    
+
+    <script>
+        document.getElementById("button").addEventListener("click",function(){
+            document.querySelector(".popup").style.display="flex";
+        })
+        document.getElementById("close").addEventListener("click",function(){
+            document.querySelector(".popup").style.display="none";
+        })
+    </script>
+</body>
+</html>
+
